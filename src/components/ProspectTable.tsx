@@ -534,7 +534,7 @@ export function ProspectTable({
                     label: (
                       <span className="flex items-center gap-2">
                         <Archive className="w-3.5 h-3.5" />
-                        <span>Archive Prospect</span>
+                        <span>Archive & Delete Prospect</span>
                       </span>
                     ),
                     onClick: () => onStatusChange(record.id, 'archived'),

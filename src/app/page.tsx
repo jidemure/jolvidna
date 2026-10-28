@@ -253,6 +253,31 @@ export default function Home() {
 
   // Outreach Status Change
   const handleStatusChange = async (prospectId: string, newStatus: OutreachStatus) => {
+    // If archiving, immediately remove and delete
+    if (newStatus === 'archived') {
+      setProspects((prev) => prev.filter((p) => p.id !== prospectId));
+      setPitches((prev) => {
+        const next = { ...prev };
+        delete next[prospectId];
+        return next;
+      });
+      if (selectedProspect && selectedProspect.id === prospectId) {
+        setIsDrawerOpen(false);
+        setSelectedProspect(null);
+      }
+      message.success('Prospect archived and deleted.');
+      try {
+        await fetch(`/api/prospects/${prospectId}/status`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ outreach_status: 'archived' }),
+        });
+      } catch (e) {
+        console.warn('Backend delete sync notice:', e);
+      }
+      return;
+    }
+
     try {
       const res = await fetch(`/api/prospects/${prospectId}/status`, {
         method: 'PATCH',

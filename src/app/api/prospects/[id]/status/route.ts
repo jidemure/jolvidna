@@ -38,6 +38,25 @@ export async function PATCH(
       );
     }
 
+    // ARCHIVE = PERMANENT DELETE (User Requirement: Once archived, prospect is deleted)
+    if (outreach_status === 'archived') {
+      const { error: deleteError } = await supabaseAdmin
+        .from('prospects')
+        .delete()
+        .eq('id', id);
+
+      if (deleteError) {
+        console.warn('Failed to delete archived prospect from Supabase:', deleteError);
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: 'Prospect archived and deleted from database.',
+        deleted: true,
+        id,
+      });
+    }
+
     // When status transitions to pitched, stamp pitched_at.
     // If reverting to audited (e.g., via 6s Undo bar), reset pitched_at to null.
     const updatePayload: {
@@ -74,11 +93,37 @@ export async function PATCH(
 
     return NextResponse.json({
       success: true,
+      message: 'Status updated successfully.',
       prospect: updatedProspect as ProspectRecord,
     });
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
-    console.error('Status update route error:', err);
+    console.error('Error updating prospect status:', err);
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  }
+}
+
+export async function DELETE(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  try {
+    const { id } = await params;
+    const { error } = await supabaseAdmin
+      .from('prospects')
+      .delete()
+      .eq('id', id);
+
+    if (error) throw error;
+
+    return NextResponse.json({
+      success: true,
+      message: 'Prospect deleted successfully.',
+      deleted: true,
+      id,
+    });
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : String(err);
     return NextResponse.json({ success: false, error: message }, { status: 500 });
   }
 }
