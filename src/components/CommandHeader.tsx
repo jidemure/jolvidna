@@ -52,7 +52,7 @@ export function CommandHeader({
 
   // Radar modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedNiche, setSelectedNiche] = useState('Kitchen Remodeler');
+  const [selectedNiche, setSelectedNiche] = useState('Kitchen remodeler');
   const [selectedStateCode, setSelectedStateCode] = useState('AZ');
   const [selectedCity, setSelectedCity] = useState('Scottsdale');
   const [targetTimezone, setTargetTimezone] = useState('America/Phoenix');

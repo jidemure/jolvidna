@@ -39,6 +39,40 @@ export const BLOCKED_DOMAINS = new Set<string>([
   'angieslist.com',
   'superpages.com',
   'citysearch.com',
+  'coloradohomesmag.com',
+  'luxesource.com',
+  'fabuwood.com',
+  'architecturaldigest.com',
+  'elledecor.com',
+  'housebeautiful.com',
+  'realtor.com',
+  'zillow.com',
+  'redfin.com',
+  'trulia.com',
+  'homelight.com',
+  'forbes.com',
+  'thespruce.com',
+  'bobvila.com',
+  'thisoldhouse.com',
+  'hgtv.com',
+  'wayfair.com',
+  'ikea.com',
+  'craftsman.com',
+  'ferguson.com',
+  'build.com',
+  'daltile.com',
+  'cambriausa.com',
+  'caesarstoneus.com',
+  'jameshardie.com',
+  'gaf.com',
+  'owenscorning.com',
+  'certainteed.com',
+  'andersenwindows.com',
+  'pella.com',
+  'marvin.com',
+  'kohler.com',
+  'moen.com',
+  'deltafaucet.com',
 ]);
 
 /**
@@ -120,6 +154,24 @@ export function isBlockedOrDirectory(url: string): { isBlocked: boolean; reason?
     };
   }
 
+  // Media publications, national magazines, review portals, and real estate listings
+  if (
+    rootDomain.includes('mag.') ||
+    rootDomain.endsWith('mag.com') ||
+    rootDomain.includes('magazine') ||
+    rootDomain.includes('journal') ||
+    rootDomain.endsWith('times.com') ||
+    rootDomain.includes('realtor') ||
+    rootDomain.includes('zillow') ||
+    rootDomain.includes('redfin') ||
+    rootDomain.includes('patch.com')
+  ) {
+    return {
+      isBlocked: true,
+      reason: `${rootDomain} is a media publication or portal, not an independent trade contractor.`,
+      rootDomain,
+    };
+  }
   for (const blocked of BLOCKED_DOMAINS) {
     if (rootDomain === blocked || rootDomain.endsWith(`.${blocked}`)) {
       return {
@@ -314,22 +366,80 @@ export function scanRenderedHtml(html: string): HtmlScanResult {
     }
   }
 
-  // 14. Authentic Project Detail Extraction (Rule of 2 & Zero-Fabrication Contract)
+  // 14. Comprehensive Authentic Project Detail & Trade Specialty Extraction
   let specific_project_detail: string | null = null;
   const projectPhrases = [
-    /custom\s+(?:white\s+oak|quartzite|marble|walnut|cherry)\s+(?:cabinetry|island|countertops|vanity)/i,
-    /(?:modern\s+farmhouse|transitional|coastal|luxury|spa-inspired)\s+(?:kitchen|bathroom|master\s+bath)/i,
+    // Kitchen & Bath
+    /custom\s+(?:white\s+oak|quartzite|marble|walnut|cherry)\s+(?:cabinetry|cabinets|island|countertops|vanities|vanity)/i,
+    /(?:modern\s+farmhouse|transitional|coastal|luxury|spa-inspired|scandinavian)\s+(?:kitchen|bathroom|master\s+bath|living)/i,
     /freestanding\s+soaking\s+tub/i,
-    /frameless\s+glass\s+shower/i,
+    /frameless\s+glass\s+(?:walk-in\s+)?shower/i,
     /zero-threshold\s+curbless\s+shower/i,
-    /waterfall\s+(?:island|quartz)/i,
+    /waterfall\s+(?:island|edge|quartz|granite)/i,
+    /butler(?:'s)?\s+pantry/i,
+    
+    // Roofing & Exterior Envelope
+    /standing\s+seam\s+(?:metal\s+)?roofing/i,
+    /architectural\s+(?:asphalt\s+)?shingles/i,
+    /slate\s+(?:and\s+copper\s+)?roofing/i,
+    /james\s+hardie\s+(?:fiber\s+cement\s+)?siding/i,
+    /energy-efficient\s+(?:triple-pane\s+)?window\s+replacements/i,
+    
+    // Pools & Outdoor Living
+    /custom\s+gunite\s+(?:swimming\s+)?pool/i,
+    /infinity(?:-edge)?\s+pool/i,
+    /pebble\s+tec\s+pool\s+finish/i,
+    /outdoor\s+kitchen\s+(?:and\s+living\s+space|pavilion|pergola|fire\s+pit)/i,
+    /travertine\s+(?:paver\s+)?pool\s+deck/i,
+    /custom\s+cedar\s+(?:and\s+composite\s+)?pergola/i,
+    
+    // Structural & Additions
+    /second-story\s+home\s+addition/i,
+    /custom\s+accessory\s+dwelling\s+unit\s*\(ADU\)/i,
+    /timber\s+frame\s+(?:construction|pavilion)/i,
+    /structural\s+beam\s+and\s+load-bearing\s+wall\s+removal/i,
+    
+    // HVAC, Mechanical & Electrical
+    /geothermal\s+heat\s+pump\s+system/i,
+    /multi-zone\s+ductless\s+mini-split/i,
+    /whole-home\s+standby\s+generator/i,
+    /closed-cell\s+spray\s+foam\s+insulation/i,
+    
+    // Flooring & Masonry
+    /wide\s+plank\s+(?:european\s+white\s+oak|engineered)\s+hardwood/i,
+    /herringbone\s+wood\s+flooring/i,
+    /natural\s+dry-stack\s+stone\s+masonry/i,
+    /decorative\s+stamped\s+concrete\s+patio/i
   ];
 
   for (const regex of projectPhrases) {
     const m = html.match(regex);
     if (m) {
-      specific_project_detail = m[0];
+      specific_project_detail = m[0].trim();
       break;
+    }
+  }
+
+  // Fallback 1: Extract prominent <h1> heading if it mentions real services
+  if (!specific_project_detail) {
+    const h1Match = html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i);
+    if (h1Match && h1Match[1]) {
+      const cleanH1 = h1Match[1].replace(/<[^>]+>/g, '').trim().replace(/\s+/g, ' ');
+      if (cleanH1.length >= 10 && cleanH1.length <= 70 && !/welcome|home|about/i.test(cleanH1)) {
+        specific_project_detail = cleanH1;
+      }
+    }
+  }
+
+  // Fallback 2: Extract clean <title> if informative
+  if (!specific_project_detail) {
+    const titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+    if (titleMatch && titleMatch[1]) {
+      const cleanTitle = titleMatch[1].replace(/<[^>]+>/g, '').trim().replace(/\s+/g, ' ');
+      const servicePart = cleanTitle.split(/[-|–•]/)[0]?.trim();
+      if (servicePart && servicePart.length >= 10 && servicePart.length <= 60) {
+        specific_project_detail = servicePart;
+      }
     }
   }
 

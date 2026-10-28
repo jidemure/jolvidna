@@ -1,7 +1,10 @@
 // ============================================================================
-// GOOGLE MAPS / GBP HIGH-TICKET HOME SERVICES CATEGORIES
-// Curated from Dalton Luka GBP Category Directory & Google Maps Trade Taxonomy
-// Qualified for $10,000 Setup + $2,500/mo Retainer Capacity ($15k–$100k+ Jobs)
+// GOOGLE MAPS / GBP HIGH-TICKET HOME SERVICES & SPECIALTY CONTRACTORS
+// Sole Source of Truth: Dalton Luka GBP Category Directory (https://daltonluka.com/blog/google-my-business-categories)
+// Strict Agency Qualification Filters:
+// 1. One-time Setup: $5,000 to $15,000 capacity ($15k–$250k+ average project value)
+// 2. Monthly Retainer: $2,500 to $3,500 recurring fee capacity
+// 3. Direct Contact: Direct access to business owner / trade principal (no corporate bureaucracy)
 // ============================================================================
 
 import usStatesCitiesData from './us_states_cities.json';
@@ -15,40 +18,55 @@ export interface GbpHomeServiceNiche {
 }
 
 export const GOOGLE_MAPS_NICHES: GbpHomeServiceNiche[] = [
-  // 1. Kitchen, Bath & Interior Remodeling ($20k–$150k+ jobs)
-  { value: 'Kitchen Remodeler', label: 'Kitchen Remodeler', avgTicket: '$45,000–$120,000+', cluster: 'Kitchen & Bath', underservedMultiplier: 'Medium' },
-  { value: 'Bathroom Remodeler', label: 'Bathroom Remodeler', avgTicket: '$20,000–$55,000', cluster: 'Kitchen & Bath', underservedMultiplier: 'Medium' },
-  { value: 'Cabinet Maker', label: 'Cabinet Maker & Custom Woodworking', avgTicket: '$18,000–$48,000', cluster: 'Kitchen & Bath', underservedMultiplier: 'High' },
-  { value: 'Countertop Store', label: 'Countertop Fabricator & Installer (Quartz/Granite)', avgTicket: '$12,000–$30,000', cluster: 'Kitchen & Bath', underservedMultiplier: 'Medium' },
-  { value: 'Interior Designer', label: 'High-End Interior Remodeling & Design Firm', avgTicket: '$35,000–$100,000+', cluster: 'Kitchen & Bath', underservedMultiplier: 'High' },
+  // 1. Kitchen, Bath & Whole-Home Remodeling
+  { value: 'Kitchen remodeler', label: 'Kitchen Remodeler', avgTicket: '$45,000–$125,000+', cluster: 'Kitchen & Bath', underservedMultiplier: 'Medium' },
+  { value: 'Bathroom remodeler', label: 'Bathroom Remodeler', avgTicket: '$25,000–$65,000', cluster: 'Kitchen & Bath', underservedMultiplier: 'Medium' },
+  { value: 'Remodeler', label: 'Full-Service Remodeler', avgTicket: '$60,000–$180,000+', cluster: 'Kitchen & Bath', underservedMultiplier: 'High' },
+  { value: 'Cabinet maker', label: 'Cabinet Maker (Custom Architectural Millwork)', avgTicket: '$18,000–$55,000', cluster: 'Kitchen & Bath', underservedMultiplier: 'High' },
+  { value: 'Countertop contractor', label: 'Countertop Contractor (Quartzite & Marble)', avgTicket: '$12,000–$35,000', cluster: 'Kitchen & Bath', underservedMultiplier: 'Medium' },
 
-  // 2. Structural, General Contracting & Additions ($75k–$350k+ jobs)
-  { value: 'General Contractor', label: 'General Contractor (Design-Build & Additions)', avgTicket: '$85,000–$300,000+', cluster: 'Full Home / Additions', underservedMultiplier: 'Medium' },
-  { value: 'Custom Home Builder', label: 'Custom Home Builder & Luxury Estates', avgTicket: '$250,000–$1,000,000+', cluster: 'Full Home / Additions', underservedMultiplier: 'Very High' },
-  { value: 'Home Builder', label: 'Home Additions & ADU Builder', avgTicket: '$70,000–$180,000', cluster: 'Full Home / Additions', underservedMultiplier: 'High' },
-  { value: 'Basement Finishing Contractor', label: 'Basement Finishing & Remodeling Contractor', avgTicket: '$35,000–$90,000', cluster: 'Full Home / Additions', underservedMultiplier: 'Very High' },
-  { value: 'Building Restoration Service', label: 'Historic Home & Structural Restoration Service', avgTicket: '$50,000–$200,000+', cluster: 'Full Home / Additions', underservedMultiplier: 'Very High' },
+  // 2. General Contracting & Luxury Construction
+  { value: 'General contractor', label: 'General Contractor (Design-Build & Additions)', avgTicket: '$85,000–$350,000+', cluster: 'Construction & Framing', underservedMultiplier: 'Medium' },
+  { value: 'Custom home builder', label: 'Custom Home Builder', avgTicket: '$350,000–$2,000,000+', cluster: 'Construction & Framing', underservedMultiplier: 'Very High' },
+  { value: 'Home builder', label: 'Home Builder & Structural Additions', avgTicket: '$100,000–$400,000+', cluster: 'Construction & Framing', underservedMultiplier: 'High' },
+  { value: 'Garage builder', label: 'Garage Builder & ADU Construction', avgTicket: '$35,000–$95,000', cluster: 'Construction & Framing', underservedMultiplier: 'Very High' },
+  { value: 'Interior construction contractor', label: 'Interior Construction Contractor', avgTicket: '$40,000–$120,000', cluster: 'Construction & Framing', underservedMultiplier: 'High' },
 
-  // 3. Outdoor Living, Pools & Hardscapes ($30k–$200k+ jobs)
-  { value: 'Swimming Pool Contractor', label: 'Custom Swimming Pool Builder & Contractor', avgTicket: '$65,000–$190,000+', cluster: 'Outdoor Living', underservedMultiplier: 'Very High' },
-  { value: 'Landscape Designer', label: 'Luxury Hardscape & Outdoor Kitchen Contractor', avgTicket: '$30,000–$95,000', cluster: 'Outdoor Living', underservedMultiplier: 'High' },
-  { value: 'Deck Builder', label: 'Custom Architectural Deck & Pergola Builder', avgTicket: '$22,000–$65,000', cluster: 'Outdoor Living', underservedMultiplier: 'High' },
-  { value: 'Sunroom Contractor', label: 'Sunroom, Patio Enclosure & Glasshouse Contractor', avgTicket: '$28,000–$75,000', cluster: 'Outdoor Living', underservedMultiplier: 'Very High' },
-  { value: 'Paving Contractor', label: 'Custom Stone Paver & Driveway Contractor', avgTicket: '$18,000–$50,000', cluster: 'Outdoor Living', underservedMultiplier: 'Medium' },
+  // 3. Outdoor Living, Pools & Architectural Hardscapes
+  { value: 'Swimming pool contractor', label: 'Swimming Pool Contractor (Luxury Gunite & Spa)', avgTicket: '$75,000–$225,000+', cluster: 'Outdoor Living', underservedMultiplier: 'Very High' },
+  { value: 'Landscape designer', label: 'Landscape Designer (Outdoor Living & Kitchens)', avgTicket: '$35,000–$110,000', cluster: 'Outdoor Living', underservedMultiplier: 'High' },
+  { value: 'Landscape architect', label: 'Landscape Architect (Estate Master Plans)', avgTicket: '$50,000–$150,000+', cluster: 'Outdoor Living', underservedMultiplier: 'Very High' },
+  { value: 'Deck builder', label: 'Deck Builder (Custom Composite & Hardwood)', avgTicket: '$25,000–$75,000', cluster: 'Outdoor Living', underservedMultiplier: 'High' },
+  { value: 'Sunroom contractor', label: 'Sunroom Contractor (Glass Enclosures & Patios)', avgTicket: '$30,000–$85,000', cluster: 'Outdoor Living', underservedMultiplier: 'Very High' },
+  { value: 'Paving contractor', label: 'Paving Contractor (Cobblestone & Driveways)', avgTicket: '$20,000–$60,000', cluster: 'Outdoor Living', underservedMultiplier: 'Medium' },
+  { value: 'Fence contractor', label: 'Fence Contractor (Architectural Iron & Cedar)', avgTicket: '$15,000–$45,000', cluster: 'Outdoor Living', underservedMultiplier: 'Medium' },
 
-  // 4. Roofing, Solar & Exterior Envelope ($20k–$85k+ jobs)
-  { value: 'Roofing Contractor', label: 'Luxury Standing-Seam, Slate & Tile Roofing Contractor', avgTicket: '$20,000–$65,000', cluster: 'Exterior Envelope', underservedMultiplier: 'Medium' },
-  { value: 'Solar Energy Contractor', label: 'Solar Energy & Whole-Home Battery Installer', avgTicket: '$25,000–$70,000', cluster: 'Exterior Envelope', underservedMultiplier: 'Medium' },
-  { value: 'Siding Contractor', label: 'James Hardie & Engineered Siding Contractor', avgTicket: '$18,000–$45,000', cluster: 'Exterior Envelope', underservedMultiplier: 'High' },
-  { value: 'Window Installation Service', label: 'Architectural Window & Fleetwood Door Specialist', avgTicket: '$25,000–$80,000', cluster: 'Exterior Envelope', underservedMultiplier: 'High' },
+  // 4. Roofing, Siding & Exterior Building Envelope
+  { value: 'Roofing contractor', label: 'Roofing Contractor (Standing Seam, Tile & Slate)', avgTicket: '$22,000–$75,000', cluster: 'Exterior Envelope', underservedMultiplier: 'Medium' },
+  { value: 'Siding contractor', label: 'Siding Contractor (James Hardie & Engineered Wood)', avgTicket: '$20,000–$55,000', cluster: 'Exterior Envelope', underservedMultiplier: 'High' },
+  { value: 'Window installation service', label: 'Window Installation Service (Custom Architectural)', avgTicket: '$25,000–$85,000', cluster: 'Exterior Envelope', underservedMultiplier: 'High' },
+  { value: 'Stucco contractor', label: 'Stucco Contractor (Exterior Remediation & Plaster)', avgTicket: '$18,000–$48,000', cluster: 'Exterior Envelope', underservedMultiplier: 'High' },
+  { value: 'Solar energy company', label: 'Solar Energy Company (Residential Solar & Storage)', avgTicket: '$25,000–$70,000', cluster: 'Exterior Envelope', underservedMultiplier: 'Medium' },
 
-  // 5. Mechanical, Foundation & Specialized Trades ($15k–$50k+ jobs)
-  { value: 'Foundation Contractor', label: 'Foundation Repair & Concrete Leveling Contractor', avgTicket: '$15,000–$50,000', cluster: 'Specialized Trades', underservedMultiplier: 'Very High' },
-  { value: 'Waterproofing Service', label: 'Basement & Structural Waterproofing Service', avgTicket: '$14,000–$40,000', cluster: 'Specialized Trades', underservedMultiplier: 'Very High' },
-  { value: 'HVAC Contractor', label: 'High-End Geothermal & Multi-Zone HVAC Contractor', avgTicket: '$16,000–$38,000', cluster: 'Specialized Trades', underservedMultiplier: 'Medium' },
-  { value: 'Electrician', label: 'Whole-Home Commercial Generator & EV Infrastructure', avgTicket: '$12,000–$32,000', cluster: 'Specialized Trades', underservedMultiplier: 'High' },
-  { value: 'Flooring Contractor', label: 'Hardwood Floor Refinishing & Italian Marble Specialist', avgTicket: '$15,000–$42,000', cluster: 'Specialized Trades', underservedMultiplier: 'High' },
-  { value: 'Masonry Contractor', label: 'Custom Natural Stone Masonry & Fireplace Builder', avgTicket: '$20,000–$60,000', cluster: 'Specialized Trades', underservedMultiplier: 'Very High' },
+  // 5. Emergency Restoration, Structural & Foundation
+  { value: 'Water damage restoration service', label: 'Water Damage Restoration Service', avgTicket: '$18,000–$65,000', cluster: 'Restoration & Disaster', underservedMultiplier: 'Very High' },
+  { value: 'Fire damage restoration service', label: 'Fire Damage Restoration Service', avgTicket: '$30,000–$120,000+', cluster: 'Restoration & Disaster', underservedMultiplier: 'Very High' },
+  { value: 'Foundation', label: 'Foundation Contractor (Helical Piering & Underpinning)', avgTicket: '$15,000–$55,000', cluster: 'Structural & Concrete', underservedMultiplier: 'Very High' },
+  { value: 'Waterproofing service', label: 'Waterproofing Service (Basement Encapsulation)', avgTicket: '$14,000–$45,000', cluster: 'Structural & Concrete', underservedMultiplier: 'Very High' },
+  { value: 'Concrete contractor', label: 'Concrete Contractor (Decorative & Structural Slabs)', avgTicket: '$16,000–$50,000', cluster: 'Structural & Concrete', underservedMultiplier: 'Medium' },
+  { value: 'Masonry contractor', label: 'Masonry Contractor (Natural Stone & Retaining Walls)', avgTicket: '$20,000–$65,000', cluster: 'Structural & Concrete', underservedMultiplier: 'High' },
+  { value: 'Excavating contractor', label: 'Excavating Contractor (Site Prep & Grading)', avgTicket: '$20,000–$70,000', cluster: 'Structural & Concrete', underservedMultiplier: 'High' },
+  { value: 'Demolition contractor', label: 'Demolition Contractor (Structural & Interior Tear-Out)', avgTicket: '$15,000–$45,000', cluster: 'Structural & Concrete', underservedMultiplier: 'Medium' },
+
+  // 6. Mechanical, Energy & High-End Interior Finishing
+  { value: 'HVAC contractor', label: 'HVAC Contractor (Multi-Zone & Inverter Replacement)', avgTicket: '$16,000–$40,000', cluster: 'Mechanical & Comfort', underservedMultiplier: 'Medium' },
+  { value: 'Heating contractor', label: 'Heating Contractor (Boiler & Radiant In-Floor Systems)', avgTicket: '$15,000–$38,000', cluster: 'Mechanical & Comfort', underservedMultiplier: 'Medium' },
+  { value: 'Air conditioning contractor', label: 'Air Conditioning Contractor', avgTicket: '$15,000–$36,000', cluster: 'Mechanical & Comfort', underservedMultiplier: 'Medium' },
+  { value: 'Insulation contractor', label: 'Insulation Contractor (Closed-Cell Spray Foam)', avgTicket: '$12,000–$32,000', cluster: 'Mechanical & Comfort', underservedMultiplier: 'High' },
+  { value: 'Flooring contractor', label: 'Flooring Contractor (Custom Hardwood & Terrazzo)', avgTicket: '$16,000–$48,000', cluster: 'Finishing Trades', underservedMultiplier: 'High' },
+  { value: 'Tile contractor', label: 'Tile Contractor (Large-Format Porcelain & Stone)', avgTicket: '$14,000–$42,000', cluster: 'Finishing Trades', underservedMultiplier: 'High' },
+  { value: 'Marble contractor', label: 'Marble Contractor (Slab Fabrication & Bookmatching)', avgTicket: '$22,000–$65,000', cluster: 'Finishing Trades', underservedMultiplier: 'Very High' },
+  { value: 'Dry wall contractor', label: 'Dry Wall Contractor (Level 5 Smooth Finish & Framing)', avgTicket: '$14,000–$38,000', cluster: 'Finishing Trades', underservedMultiplier: 'Medium' },
 ];
 
 export interface StateRecord {
@@ -98,27 +116,27 @@ export function pickRandomOpportunity(): {
   // 70% chance to target a verified high-value affluent market pocket
   if (Math.random() < 0.7 && HIGH_VALUE_POCKETS.length > 0) {
     const pocket = HIGH_VALUE_POCKETS[Math.floor(Math.random() * HIGH_VALUE_POCKETS.length)];
-    const stateData = ALL_US_STATES[pocket.state];
+    const stateObj = ALL_US_STATES[pocket.state];
     return {
       niche: niche.value,
       state: pocket.state,
       city: pocket.city,
-      timezone: stateData ? stateData.timezone : 'America/Phoenix',
-      reason: `${pocket.reason} High demand for ${niche.label} (${niche.avgTicket}).`,
+      timezone: stateObj?.timezone || 'America/Chicago',
+      reason: pocket.reason,
     };
   }
 
-  // Otherwise, pick randomly across any of the 50 US states and its full city database
+  // 30% chance to target a random state/city from the exhaustive 50-state database
   const stateKeys = Object.keys(ALL_US_STATES);
-  const randomStateCode = stateKeys[Math.floor(Math.random() * stateKeys.length)];
-  const stateData = ALL_US_STATES[randomStateCode];
-  const randomCity = stateData.cities[Math.floor(Math.random() * stateData.cities.length)] || 'Capital';
+  const randomStateKey = stateKeys[Math.floor(Math.random() * stateKeys.length)];
+  const randomState = ALL_US_STATES[randomStateKey];
+  const randomCity = randomState.cities[Math.floor(Math.random() * randomState.cities.length)] || 'Metro Area';
 
   return {
     niche: niche.value,
-    state: randomStateCode,
+    state: randomState.code,
     city: randomCity,
-    timezone: stateData.timezone,
-    reason: `Underserved market in ${randomCity}, ${randomStateCode}. High-ticket ${niche.label} services (${niche.avgTicket}) with minimal agency saturation.`,
+    timezone: randomState.timezone,
+    reason: `Targeting high-intent ${niche.label} in ${randomCity}, ${randomState.code}.`,
   };
 }
