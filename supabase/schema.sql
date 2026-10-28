@@ -162,3 +162,13 @@ begin
   return updated_rows;
 end;
 $$ language plpgsql;
+
+
+-- ============================================================================
+-- ROW LEVEL SECURITY (RLS) LOCKDOWN
+-- Prevents unauthenticated browser access via Supabase public URL / anon key.
+-- Server-side Next.js routes use SUPABASE_SERVICE_ROLE_KEY to bypass RLS securely.
+-- ============================================================================
+alter table public.radar_campaigns enable row level security;
+alter table public.prospects enable row level security;
+alter table public.pitches enable row level security;

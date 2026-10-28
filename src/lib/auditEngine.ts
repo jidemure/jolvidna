@@ -98,6 +98,28 @@ export function isBlockedOrDirectory(url: string): { isBlocked: boolean; reason?
     return { isBlocked: true, reason: 'Invalid or empty URL provided.', rootDomain: '' };
   }
 
+  // Anti-SSRF Defense: Block loopback, RFC 1918 private IPs, and cloud metadata endpoints
+  const isLocalOrPrivate =
+    rootDomain === 'localhost' ||
+    rootDomain.endsWith('.local') ||
+    rootDomain.endsWith('.internal') ||
+    rootDomain.endsWith('.onion') ||
+    /^127\.\d+\.\d+\.\d+$/.test(rootDomain) ||
+    /^10\.\d+\.\d+\.\d+$/.test(rootDomain) ||
+    /^172\.(1[6-9]|2\d|3[01])\.\d+\.\d+$/.test(rootDomain) ||
+    /^192\.168\.\d+\.\d+$/.test(rootDomain) ||
+    /^169\.254\.\d+\.\d+$/.test(rootDomain) ||
+    /^0\.0\.0\.0$/.test(rootDomain) ||
+    rootDomain === '::1';
+
+  if (isLocalOrPrivate) {
+    return {
+      isBlocked: true,
+      reason: 'Access to internal, loopback, or private network addresses is forbidden.',
+      rootDomain,
+    };
+  }
+
   for (const blocked of BLOCKED_DOMAINS) {
     if (rootDomain === blocked || rootDomain.endsWith(`.${blocked}`)) {
       return {

@@ -10,6 +10,7 @@ import { isTargetCityInPeakAdHours, getNextPeakWindowTimestamp } from '@/lib/tim
 import { discoverCitySerp } from '@/lib/visualProof';
 import { isBlockedOrDirectory } from '@/lib/auditEngine';
 import { executeSingleAudit } from '@/lib/auditOrchestrator';
+import { checkRateLimit } from '@/lib/rateLimit';
 import { RadarLaunchRequest, RadarCampaignRecord } from '@/lib/types';
 
 export const dynamic = 'force-dynamic';
@@ -17,6 +18,23 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: NextRequest) {
   try {
     const body = (await req.json()) as RadarLaunchRequest;
+    // Abuse & ScrapingBee Credit Protection: Max 5 bulk radar launches per 10 minutes per IP
+    const forwarded = req.headers.get('x-forwarded-for');
+    const clientIp = forwarded ? forwarded.split(',')[0].trim() : '127.0.0.1';
+
+    const rateCheck = checkRateLimit(`radar:${clientIp}`, { limit: 5, windowMs: 10 * 60 * 1000 });
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Bulk discovery limit reached. Please wait ${rateCheck.retryAfterSeconds}s before launching another radar job.`,
+        },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(rateCheck.retryAfterSeconds) },
+        }
+      );
+    }
     const { niche, target_city, target_timezone, force_run_now } = body;
 
     if (!niche || !target_city || !target_timezone) {
