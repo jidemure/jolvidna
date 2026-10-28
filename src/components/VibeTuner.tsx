@@ -21,6 +21,10 @@ const FONT_FAMILIES = [
 ];
 
 export default function VibeTuner() {
+  // Development only - never render on live Vercel production
+  if (process.env.NODE_ENV !== 'development') {
+    return null;
+  }
   const { mode } = useTheme();
   const isDark = mode === 'dark';
   const [isOpen, setIsOpen] = useState(false);

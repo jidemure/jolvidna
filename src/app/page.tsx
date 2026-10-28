@@ -384,7 +384,7 @@ export default function Home() {
       />
 
       {/* 5. Live UI Vibe Tuner (Press Alt+S to inspect and fine-tune spacing/fonts/colors) */}
-      <VibeTuner />
+      {process.env.NODE_ENV === 'development' && <VibeTuner />}
     </div>
   );
 }
