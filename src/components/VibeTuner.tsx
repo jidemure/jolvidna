@@ -20,11 +20,7 @@ const FONT_FAMILIES = [
   { label: 'JetBrains Mono', value: "'JetBrains Mono', monospace" },
 ];
 
-export default function VibeTuner() {
-  // Development only - never render on live Vercel production
-  if (process.env.NODE_ENV !== 'development') {
-    return null;
-  }
+function VibeTunerInner() {
   const { mode } = useTheme();
   const isDark = mode === 'dark';
   const [isOpen, setIsOpen] = useState(false);
@@ -828,4 +824,12 @@ export default function VibeTuner() {
       </div>
     </aside>
   );
+}
+
+
+export default function VibeTuner() {
+  if (process.env.NODE_ENV !== 'development') {
+    return null;
+  }
+  return <VibeTunerInner />;
 }
